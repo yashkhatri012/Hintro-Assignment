@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/auth.routes.js";
+import meetingRoutes from "./routes/meeting.routes.js";
 
+import { traceMiddleware } from "./middleware/trace.middleware.js";
+import { errorHandler } from "./middleware/error.middleware.js";
 
 
 const app = express();
@@ -21,7 +24,7 @@ app.get("/health", (req, res) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
-
+app.use("/api/meetings", meetingRoutes);
 
 // Evaluation Endpoint
 app.get("/api/evaluation", (req, res) => {
@@ -35,12 +38,14 @@ app.get("/api/evaluation", (req, res) => {
       deployedUrl: "",
       externalIntegration: "",
       features: [
-        
+        "Authentication",
       ],
     },
   });
 });
 
+// Global Error Handler
+app.use(errorHandler);
 
 
 export default app;
