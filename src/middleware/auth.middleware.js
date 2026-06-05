@@ -26,9 +26,10 @@ export const protect = (req, res, next) => {
 
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: "Invalid token",
-    });
+     throw new ApiError(
+        401,
+        "Invalid token",
+        error
+        );
   }
 };
