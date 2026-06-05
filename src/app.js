@@ -12,7 +12,7 @@ const app = express();
 // Core Middleware
 app.use(cors());
 app.use(express.json());
-
+app.use(traceMiddleware);
 
 
 // Health Check
