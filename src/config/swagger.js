@@ -11,7 +11,7 @@ const options = {
 
     servers: [
       {
-        url: "hintro-assignment-production-f256.up.railway.app",
+        url: "https://hintro-assignment-production-f256.up.railway.app",
       },
     ],
 
