@@ -25,9 +25,14 @@ app.use(traceMiddleware);
 
 // Health Check
 app.get("/health", (req, res) => {
-  res.status(200).json({
-    status: "UP",
-  });
+  res.status(200).json(
+    new ApiResponse(
+      req.traceId,
+      {
+        status: "UP",
+      }
+    )
+  );
 });
 
 // Routes

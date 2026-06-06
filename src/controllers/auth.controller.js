@@ -9,7 +9,33 @@ import ApiResponse from "../utils/ApiResponse.js";
 export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+    const { name, email, password } = req.body;
 
+    const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+          throw new ApiError(
+            400,
+            "MISSING_REQUIRED_FIELDS",
+            "Name, email and password are required"
+          );
+        }
+
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+          throw new ApiError(
+            400,
+            "INVALID_EMAIL",
+            "Please provide a valid email address"
+          );
+        }
+
+        if (password.length < 6) {
+          throw new ApiError(
+            400,
+            "WEAK_PASSWORD",
+            "Password must be at least 6 characters long"
+          );
+        }
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
