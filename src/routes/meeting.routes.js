@@ -7,7 +7,7 @@ import {
 } from "../controllers/meeting.controller.js";
 
 import { protect } from "../middleware/auth.middleware.js";
-import { analyzeMeeting } from "../services/gemini.service.js";
+import { analyzeMeeting } from "../services/groq.service.js";
 import { analyzeMeetingController } from "../controllers/analyze.controller.js";
 
 const meetingRoutes = express.Router();

@@ -1,5 +1,5 @@
 import Meeting from "../models/Meeting.js";
-import { analyzeMeeting } from "../services/gemini.service.js";
+import { analyzeMeeting } from "../services/groq.service.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
 import Analysis from "../models/Analysis.js";
