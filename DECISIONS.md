@@ -64,7 +64,7 @@ Cons:
 
 ### Decision
 
-Google Gemini 2.5 Flash
+groq llama-3.3-70b-versatile
 
 ### Why
 
@@ -75,7 +75,7 @@ Google Gemini 2.5 Flash
 ### Alternatives Considered
 
 * OpenAI GPT models.
-* Claude.
+* Gemini.
 
 ### Trade-offs
 

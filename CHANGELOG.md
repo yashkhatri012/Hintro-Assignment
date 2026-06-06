@@ -20,7 +20,7 @@
 
 ### AI Analysis
 
-* Integrated Google Gemini.
+* Integrated Groq.
 * Implemented transcript analysis.
 * Added citation-based output.
 * Added hallucination prevention rules.

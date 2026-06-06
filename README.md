@@ -4,7 +4,7 @@
 
 Mini AI Meeting Assistant is a backend application that helps teams manage meetings, analyze transcripts using AI, track action items, and send reminders for overdue tasks.
 
-The system uses Google Gemini to generate structured meeting insights while grounding all generated outputs in transcript citations.
+The system uses groq to generate structured meeting insights while grounding all generated outputs in transcript citations.
 
 ---
 
@@ -30,7 +30,7 @@ The system uses Google Gemini to generate structured meeting insights while grou
 * MongoDB Atlas
 * Mongoose
 * JWT
-* Google Gemini API
+* groq API
 * Telegram Bot API
 * node-cron
 * Swagger
@@ -47,7 +47,7 @@ MONGODB_URI=
 
 JWT_SECRET=
 
-GEMINI_API_KEY=
+GROQ_API_KEY=
 
 TELEGRAM_BOT_TOKEN=
 
@@ -80,7 +80,7 @@ npm run dev
 ## Local Execution Steps
 
 1. Start MongoDB Atlas connection.
-2. Configure Gemini API key.
+2. Configure groq API key.
 3. Configure Telegram bot credentials.
 4. Run:
 

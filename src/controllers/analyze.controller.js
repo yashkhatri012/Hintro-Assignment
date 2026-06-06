@@ -32,6 +32,7 @@ export const analyzeMeetingController = async (req, res, next) => {
         meetingId: meeting._id,
         task: item.task,
         assignee: item.assignee,
+        dueDate: item.dueDate || null,
         citations: item.citations,
         createdBy: req.user.id,
       });

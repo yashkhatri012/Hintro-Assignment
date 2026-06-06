@@ -207,7 +207,7 @@ Result:
 * Missing required fields.
 * Duplicate user registration.
 * Empty action item list.
-* Gemini API temporary unavailability.
+* Groq API temporary unavailability.
 * Invalid action item status updates.
 
 ---
@@ -216,4 +216,4 @@ Result:
 
 * Limited automated test coverage.
 * AI output quality depends on transcript quality.
-* Gemini service may occasionally return rate limit or availability errors.
+* Service may occasionally return rate limit or availability errors.

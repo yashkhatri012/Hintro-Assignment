@@ -2,7 +2,7 @@
 
 ## Prompt Design
 
-The prompt instructs Gemini to:
+The prompt instructs groq to:
 
 * Use only transcript information.
 * Avoid inventing facts.
@@ -62,7 +62,7 @@ After generation:
 
 ## Known Limitations
 
-* Gemini may occasionally return unavailable errors.
+* GROQ may occasionally return unavailable errors.
 * Due dates are not always inferable from transcripts.
 * Transcript quality directly affects extraction quality.
 * Complex meeting discussions may require human review.
