@@ -11,7 +11,7 @@ const options = {
 
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "hintro-assignment-production-f256.up.railway.app",
       },
     ],
 
