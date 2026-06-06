@@ -1,9 +1,11 @@
 import cron from "node-cron";
 import ActionItem from "../models/ActionItem.js";
-
+import ReminderHistory from "../models/ReminderHistory.js";
+import { sendTelegramMessage } from "../services/telegram.service.js";
 
 export const startReminderJob = () => {
   cron.schedule("* * * * *", async () => {
+    
     const overdueItems =
   await ActionItem.find({
     status: {
@@ -20,17 +22,29 @@ console.log(
   `Found ${overdueItems.length} overdue items`
 );
 
-  for (const item of overdueItems) {
-  console.log(
-    `Reminder: ${item.task}`
-  );
-}
+    for (const item of overdueItems) {
+    const alreadySent =
+      await ReminderHistory.findOne({
+        actionItemId: item._id,
+        reminderType: "OVERDUE",
+      });
+
+    if (alreadySent) {
+      continue;
+    }
+
+    await sendTelegramMessage(
+      `Reminder: ${item.task}`
+    );
+
+    await ReminderHistory.create({
+      actionItemId: item._id,
+      reminderType: "OVERDUE",
+      status: "SUCCESS",
+    });
+  }
 
 
-// const allItems =
-//   await ActionItem.find({});
 
-// console.log("ALL ITEMS:");
-// console.log(allItems);
   });
 };
