@@ -50,7 +50,7 @@ EvaluationRoute.get("/", (req, res) => {
       candidateName: "Yash",
       email: "yashkhatri88540@gmail.com",
       repositoryUrl: "https://github.com/yashkhatri012/Hintro-Assignment",
-      deployedUrl: "",
+      deployedUrl: "https://hintro-assignment-production-f256.up.railway.app",
       externalIntegration: "Telegram Bot API",
       features: [
         "Authentication",

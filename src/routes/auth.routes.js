@@ -8,6 +8,7 @@ import { protect } from "../middleware/auth.middleware.js";
 
 
 const authRoutes  = express.Router();
+
 /**
  * @swagger
  * /api/auth/register:
@@ -37,6 +38,7 @@ const authRoutes  = express.Router();
  *         description: User registered successfully
  */
 authRoutes.post("/register", register);
+
 /**
  * @swagger
  * /api/auth/login:
@@ -44,6 +46,25 @@ authRoutes.post("/register", register);
  *     summary: Login user
  *     tags:
  *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       401:
+ *         description: Invalid credentials
  */
 authRoutes.post("/login", login);
 authRoutes.get("/me", protect, me);

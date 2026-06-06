@@ -53,9 +53,23 @@ actionItemRoutes.get("/overdue", getOverdueItems);
  *         required: true
  *         schema:
  *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - status
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 enum: [pending, in_progress, completed]
  *     responses:
  *       200:
  *         description: Status updated successfully
+ *       404:
+ *         description: Action item not found
  */
 actionItemRoutes.patch("/:id/status", updateStatus);
 
