@@ -1,100 +1,73 @@
 import { GoogleGenAI } from "@google/genai";
 
-
 export const analyzeMeeting = async (meeting) => {
-    console.log("GEMINI API KEY ",process.env.GEMINI_API_KEY);
-
-    const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+  });
 
   const transcript = meeting.transcript
-    .map(
-      (line) =>
-        `[${line.timestamp}] ${line.speaker}: ${line.text}`
-    )
+    .map((line) => `[${line.timestamp}] ${line.speaker}: ${line.text}`)
     .join("\n");
 
+  const meetingDate = new Date(meeting.meetingDate).toISOString().split("T")[0];
+
   const prompt = `
-You are a meeting analysis assistant.
+    You are a meeting analysis assistant.
 
-Rules:
-- Use ONLY information explicitly present in the transcript.
-- Do not invent attendees.
-- Do not invent action items.
-- Do not invent decisions.
-- Do not invent outcomes.
-- Every item must contain at least one citation timestamp.
-- Return ONLY valid JSON.
+    Meeting Date: ${meetingDate}
 
-Response format:
-Return ONLY valid JSON.
+    Rules:
+    - Use ONLY information explicitly present in the transcript.
+    - Do not invent attendees, action items, decisions, or outcomes.
+    - Every item must contain at least one citation timestamp.
+    - For actionItems, always extract a dueDate if ANY deadline, date, or timeframe is mentioned (e.g. "by Friday", "next week", "end of month", "in 3 days").
+    - If a relative date is mentioned (e.g. "by Friday", "next week"), calculate the actual date based on the Meeting Date provided above and return it in YYYY-MM-DD format.
+    - If absolutely no deadline or timeframe is mentioned for an action item, set dueDate to null.
+    - Return ONLY valid raw JSON. Do not wrap in markdown or code blocks.
 
-The response MUST match this schema exactly:
+    The response MUST match this schema exactly:
 
-{
-  "summary": [
     {
-      "text": "string",
-      "citations": [
+      "summary": [
         {
-          "timestamp": "string"
+          "text": "string",
+          "citations": [{ "timestamp": "string" }]
+        }
+      ],
+      "decisions": [
+        {
+          "text": "string",
+          "citations": [{ "timestamp": "string" }]
+        }
+      ],
+      "followUps": [
+        {
+          "text": "string",
+          "citations": [{ "timestamp": "string" }]
+        }
+      ],
+      "actionItems": [
+        {
+          "task": "string",
+          "assignee": "string",
+          "dueDate": "YYYY-MM-DD or null",
+          "citations": [{ "timestamp": "string" }]
         }
       ]
     }
-  ],
-  "decisions": [
-    {
-      "text": "string",
-      "citations": [
-        {
-          "timestamp": "string"
-        }
-      ]
-    }
-  ],
-  "followUps": [
-    {
-      "text": "string",
-      "citations": [
-        {
-          "timestamp": "string"
-        }
-      ]
-    }
-  ],
-  "actionItems": [
-    {
-      "task": "string",
-      "assignee": "string",
-      "citations": [
-        {
-          "timestamp": "string"
-        }
-      ]
-    }
-  ]
-}
 
-Do not wrap the JSON in markdown.
-
-Return raw JSON only
-
-Transcript:
-${transcript}
-`;
+    Transcript:
+    ${transcript}
+    `;
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash",
+    model: "gemini-2.0-flash",
     contents: prompt,
   });
+
   let text = response.text.trim();
+  text = text.replace(/```json/g, "").replace(/```/g, "").trim();
 
-text = text.replace(/```json/g, "");
-text = text.replace(/```/g, "");
-
-const analysis = JSON.parse(text);
-
-return analysis;
-  
+  const analysis = JSON.parse(text);
+  return analysis;
 };
