@@ -12,6 +12,7 @@ import actionItemRoutes from "./routes/actionItem.routes.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.js";
 import EvaluationRoute from "./routes/evaluation.routes.js";
+import ApiResponse from "./utils/ApiResponse.js";
 
 const app = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -30,6 +31,17 @@ app.get("/health", (req, res) => {
       req.traceId,
       {
         status: "UP",
+      }
+    )
+  );
+});
+
+app.get("/", (req, res) => {
+  res.status(200).json(
+    new ApiResponse(
+      req.traceId,
+      {
+        status: "Hello from Yash !",
       }
     )
   );
