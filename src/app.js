@@ -8,7 +8,14 @@ import { errorHandler } from "./middleware/error.middleware.js";
 import actionItemRoutes from "./routes/actionItem.routes.js";
 
 
+//swagger
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
+import EvaluationRoute from "./routes/evaluation.routes.js";
+
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 // Core Middleware
 app.use(cors());
@@ -27,23 +34,10 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/meetings", meetingRoutes);
 app.use("/api/action-items", actionItemRoutes);
-// Evaluation Endpoint
-app.get("/api/evaluation", (req, res) => {
-  res.status(200).json({
-    traceId: req.traceId,
-    success: true,
-    data: {
-      candidateName: "Yash",
-      email: "yashkhatri88540@gmail.com",
-      repositoryUrl: "https://github.com/yashkhatri012/Hintro-Assignment",
-      deployedUrl: "",
-      externalIntegration: "",
-      features: [
-        "Authentication",
-      ],
-    },
-  });
-});
+
+//Evaluation endpoint
+app.use("/api/evaluation", EvaluationRoute);
+
 
 // Global Error Handler
 app.use(errorHandler);
