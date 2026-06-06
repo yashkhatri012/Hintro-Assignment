@@ -13,6 +13,9 @@ import { analyzeMeetingController } from "../controllers/analyze.controller.js";
 const meetingRoutes = express.Router();
 
 meetingRoutes.use(protect);
+
+
+
 /**
  * @swagger
  * /api/meetings:
@@ -21,9 +24,51 @@ meetingRoutes.use(protect);
  *     tags: [Meetings]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - meetingDate
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: Q3 Planning Meeting
+ *               participants:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 example: ["Alice", "Bob"]
+ *               meetingDate:
+ *                 type: string
+ *                 format: date-time
+ *                 example: 2026-06-06T10:00:00Z
+ *               transcript:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - timestamp
+ *                     - speaker
+ *                     - text
+ *                   properties:
+ *                     timestamp:
+ *                       type: string
+ *                       example: "00:01:23"
+ *                     speaker:
+ *                       type: string
+ *                       example: Alice
+ *                     text:
+ *                       type: string
+ *                       example: "Let's discuss the Q3 targets."
  *     responses:
  *       201:
  *         description: Meeting created successfully
+ *       400:
+ *         description: Missing required fields
  */
 meetingRoutes.post("/", createMeeting);
 /**
@@ -60,6 +105,7 @@ meetingRoutes.get("/", getMeetings);
  */
 meetingRoutes.get("/:id", getMeetingById);
 
+
 /**
  * @swagger
  * /api/meetings/{id}/analyze:
@@ -77,6 +123,8 @@ meetingRoutes.get("/:id", getMeetingById);
  *     responses:
  *       200:
  *         description: Analysis generated successfully
+ *       404:
+ *         description: Meeting not found
  */
 
 //analysis
