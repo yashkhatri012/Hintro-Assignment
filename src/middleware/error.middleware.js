@@ -6,7 +6,7 @@ export const errorHandler = (
   next
 ) => {
   const statusCode = err.statusCode || 500;
-
+  console.error(err);
   res.status(statusCode).json({
     traceId: req.traceId,
     success: false,

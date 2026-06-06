@@ -1,6 +1,7 @@
 import ActionItem from "../models/ActionItem.js";
-import ApiResponse from "../utils/ApiResponse.js";
 import ApiError from "../utils/ApiError.js";
+import ApiResponse from "../utils/ApiResponse.js";
+
 
 export const getActionItems = async (req, res, next) => {
   try {
@@ -67,40 +68,22 @@ export const updateStatus = async (req, res, next) => {
 };
 
 // status != COMPLETED and dueDate < current time
-
-export const getOverdueItems = async (
-  req,
-  res,
-  next
-) => {
+export const getOverdueItems = async (req, res, next) => {
   try {
+    console.log("req.user.id:", req.user.id);
+    
+    const allItems = await ActionItem.find({});
+    console.log("All action items:", JSON.stringify(allItems, null, 2));
 
-//     const items = await ActionItem.find();
-
-// items.forEach((item) => {
-//   console.log(
-//     item._id,
-//     item.dueDate,
-//     item.dueDate < new Date()
-//   );
-// });
-
-   const overdueItems = await ActionItem.find({
+    const overdueItems = await ActionItem.find({
       createdBy: req.user.id,
       status: { $ne: "COMPLETED" },
-      dueDate: {
-        $ne: null,
-        $lt: new Date(),
-      },
+      dueDate: { $ne: null, $lt: new Date() },
     });
 
+    console.log("Overdue items:", overdueItems.length);
 
-    res.status(200).json(
-      new ApiResponse(
-        req.traceId,
-        overdueItems
-      )
-    );
+    res.status(200).json(new ApiResponse(req.traceId, overdueItems));
   } catch (error) {
     next(error);
   }
