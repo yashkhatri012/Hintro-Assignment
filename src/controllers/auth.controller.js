@@ -9,9 +9,7 @@ import ApiResponse from "../utils/ApiResponse.js";
 export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    const { name, email, password } = req.body;
-
-    const { name, email, password } = req.body;
+   
 
         if (!name || !email || !password) {
           throw new ApiError(
